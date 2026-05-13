@@ -1,0 +1,12 @@
+package com.edu.ucne.registroocupa.Dominio.Repository
+
+import com.edu.ucne.registroocupa.Dominio.Models.Ocupacion
+import kotlinx.coroutines.flow.Flow
+
+interface OcupacionRepository {
+    fun observeOcupaciones(): Flow<List<Ocupacion>>
+    suspend fun getOcupacion(id: Int): Ocupacion?
+    suspend fun upsert(Ocupacion: Ocupacion): Int
+    suspend fun delete(id: Int)
+    suspend fun exists(id: Int): Boolean
+}
