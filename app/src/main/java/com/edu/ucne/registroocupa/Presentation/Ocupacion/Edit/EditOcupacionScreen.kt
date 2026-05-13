@@ -47,7 +47,7 @@ fun EditOcupacionScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Editar Ocupacion") },
+                title = { Text("Ocupacion") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Atras")
