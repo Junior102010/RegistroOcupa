@@ -9,9 +9,7 @@ import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class OcupacionRepositoryImpl @Inject constructor(
-    private val localDataSource: OcupacionDao
-) : OcupacionRepository {
+class OcupacionRepositoryImpl @Inject constructor(private val localDataSource: OcupacionDao) : OcupacionRepository {
     override fun observeOcupaciones(): Flow<List<Ocupacion>> {
         return localDataSource.observeAll().map { entities ->
             entities.map { it.toDomain() }
