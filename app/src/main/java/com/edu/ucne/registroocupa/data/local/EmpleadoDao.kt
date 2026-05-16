@@ -21,6 +21,6 @@ interface EmpleadoDao {
     @Query("SELECT * FROM Empleados WHERE empleadoId = :id")
     suspend fun getById(id: Int): EmpleadoEntity?
 
-    @Query("SELECT * FROM Empleados")
-    fun getAll(): Flow<List<EmpleadoEntity>>
+    @Query("SELECT * FROM Empleados order by empleadoId")
+    fun observeAll(): Flow<List<EmpleadoEntity>>
 }

@@ -1,4 +1,4 @@
-package com.edu.ucne.registroocupa.Presentation.Ocupacion.Edit
+package com.edu.ucne.registroocupa.Presentation.Empleado.Edit
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

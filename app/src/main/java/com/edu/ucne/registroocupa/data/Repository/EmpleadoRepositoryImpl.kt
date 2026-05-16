@@ -13,8 +13,8 @@ import kotlinx.coroutines.flow.map
 class EmpleadoRepositoryImpl @Inject constructor(private val localDataSource: EmpleadoDao):
     EmpleadoRepository
 {
-    override fun getAll(): Flow<List<Empleado>> {
-        return localDataSource.getAll().map { entities -> entities.map { it.toDomain() } }
+    override fun observeAll(): Flow<List<Empleado>> {
+        return localDataSource.observeAll().map { entities -> entities.map { it.toDomain() } }
     }
 
     override suspend fun delete(id: Int) {

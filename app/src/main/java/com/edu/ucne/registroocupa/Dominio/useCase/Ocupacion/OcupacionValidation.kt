@@ -1,4 +1,4 @@
-package com.edu.ucne.registroocupa.Dominio.useCase
+package com.edu.ucne.registroocupa.Dominio.useCase.Ocupacion
 
 data class OcupacionValidation(
 

@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface EmpleadoRepository {
 
-    fun getAll() : Flow<List<Empleado>>
+    fun observeAll() : Flow<List<Empleado>>
     suspend fun getEmpleado(id : Int): Empleado?
     suspend fun upsert(Empleado: Empleado): Int
     suspend fun delete(id: Int)
