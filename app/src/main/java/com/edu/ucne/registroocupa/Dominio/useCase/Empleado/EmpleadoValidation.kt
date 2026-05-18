@@ -42,7 +42,7 @@ fun validateSexo(sexo : String) : EmpleadoValidation
 fun validateFecha(fecha : LocalDate) : EmpleadoValidation
 {
     return when{
-        fecha.isAfter(LocalDate.now()) -> EmpleadoValidation(false, "La Fecha no puede ser MAYOR A LA ACTUAL🍆")
+        fecha.isAfter(LocalDate.now()) -> EmpleadoValidation(false, "La Fecha no puede ser MAYOR A LA ACTUAL")
         else -> EmpleadoValidation(true)
     }
 }
