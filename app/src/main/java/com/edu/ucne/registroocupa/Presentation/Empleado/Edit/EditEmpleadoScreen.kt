@@ -4,6 +4,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,7 +15,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
@@ -45,7 +49,6 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditEmpleadoScreen(
     viewModel: EditEmpleadoViewModel = hiltViewModel(),
@@ -53,15 +56,29 @@ fun EditEmpleadoScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    var showDatePicker by remember { mutableStateOf(false) }
-    var expandedSexo by remember { mutableStateOf(false) }
-    val sexos = listOf("Masculino", "Femenino", "Otros")
-
-    LaunchedEffect(state.saved) {
-        if (state.saved) {
+    LaunchedEffect(state.saved, state.deleted) {
+        if (state.saved || state.deleted) {
             onBack()
         }
     }
+
+    EditEmpleadoBody(
+        state = state,
+        onEvent = viewModel::onEvent,
+        onBack = onBack
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun EditEmpleadoBody(
+    state: EditEmpleadoUiState,
+    onEvent: (EditEmpleadoUiEvent) -> Unit,
+    onBack: () -> Unit
+) {
+    var showDatePicker by remember { mutableStateOf(false) }
+    var expandedSexo by remember { mutableStateOf(false) }
+    val sexos = listOf("Masculino", "Femenino", "Otros")
 
     if (showDatePicker) {
         val datePickerState = rememberDatePickerState(
@@ -78,7 +95,7 @@ fun EditEmpleadoScreen(
                         val date = Instant.ofEpochMilli(millis)
                             .atZone(ZoneId.of("UTC"))
                             .toLocalDate()
-                        viewModel.onEvent(EditEmpleadoUiEvent.FechaIngresoChanged(date))
+                        onEvent(EditEmpleadoUiEvent.FechaIngresoChanged(date))
                     }
                     showDatePicker = false
                 }) {
@@ -95,11 +112,10 @@ fun EditEmpleadoScreen(
         }
     }
 
-
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Empleado") },
+                title = { Text(if (state.isNew) "Nuevo Empleado" else "Editar Empleado") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Atras")
@@ -117,8 +133,8 @@ fun EditEmpleadoScreen(
         ) {
             OutlinedTextField(
                 value = state.nombres,
-                onValueChange = { viewModel.onEvent(EditEmpleadoUiEvent.NombresChanged(it)) },
-                label = { Text("Ingrese su o sus Nombres") },
+                onValueChange = { onEvent(EditEmpleadoUiEvent.NombresChanged(it)) },
+                label = { Text("Nombres") },
                 modifier = Modifier
                     .fillMaxWidth()
                     .testTag("input_nombres"),
@@ -135,7 +151,7 @@ fun EditEmpleadoScreen(
                     label = { Text("Sexo") },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .testTag("input_Sexo")
+                        .testTag("input_sexo")
                         .clickable { expandedSexo = true },
                     isError = state.sexoError != null,
                     supportingText = state.sexoError?.let { { Text(it) } },
@@ -154,7 +170,7 @@ fun EditEmpleadoScreen(
                         DropdownMenuItem(
                             text = { Text(sexoOption) },
                             onClick = {
-                                viewModel.onEvent(EditEmpleadoUiEvent.SexoChanged(sexoOption))
+                                onEvent(EditEmpleadoUiEvent.SexoChanged(sexoOption))
                                 expandedSexo = false
                             }
                         )
@@ -169,7 +185,7 @@ fun EditEmpleadoScreen(
                 label = { Text("Fecha de Ingreso") },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .testTag("input_FechaIngreso")
+                    .testTag("input_fecha_ingreso")
                     .clickable { showDatePicker = true },
                 isError = state.fechaIngresoError != null,
                 supportingText = state.fechaIngresoError?.let { { Text(it) } },
@@ -180,35 +196,59 @@ fun EditEmpleadoScreen(
                 }
             )
 
-
             OutlinedTextField(
                 value = state.sueldo,
-                onValueChange = { viewModel.onEvent(EditEmpleadoUiEvent.SueldoChanged(it)) },
-                label = { Text("Sueldo (En Pesos Dominicanos)") },
+                onValueChange = { onEvent(EditEmpleadoUiEvent.SueldoChanged(it)) },
+                label = { Text("Sueldo") },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .testTag("input_SUELDO"),
+                    .testTag("input_sueldo"),
                 isError = state.sueldoError != null,
                 supportingText = state.sueldoError?.let { { Text(it) } },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 singleLine = true
             )
 
-
-            Button(
-                onClick = { viewModel.onEvent(EditEmpleadoUiEvent.Save) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .testTag("btn_save"),
-                enabled = !state.isSaving
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                if (state.isSaving) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(24.dp),
-                        color = MaterialTheme.colorScheme.onPrimary
-                    )
-                } else {
-                    Text("Guardar")
+                if (!state.isNew) {
+                    Button(
+                        onClick = { onEvent(EditEmpleadoUiEvent.Delete) },
+                        modifier = Modifier
+                            .weight(1f)
+                            .testTag("btn_eliminar"),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.error
+                        ),
+                        enabled = !state.isDeleting
+                    ) {
+                        if (state.isDeleting) {
+                            CircularProgressIndicator(modifier = Modifier.size(24.dp))
+                        } else {
+                            Icon(Icons.Default.Delete, contentDescription = null)
+                            Spacer(Modifier.size(8.dp))
+                            Text("Eliminar")
+                        }
+                    }
+                }
+
+                Button(
+                    onClick = { onEvent(EditEmpleadoUiEvent.Save) },
+                    modifier = Modifier
+                        .weight(if (state.isNew) 1f else 2f)
+                        .testTag("btn_guardar"),
+                    enabled = !state.isSaving
+                ) {
+                    if (state.isSaving) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(24.dp),
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
+                    } else {
+                        Text("Guardar")
+                    }
                 }
             }
         }

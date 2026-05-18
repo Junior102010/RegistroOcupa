@@ -111,7 +111,7 @@ fun OcupacionListBody(
                     )
                 } else {
                     LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier.fillMaxSize().testTag("Ocupaciones_list"),
                         contentPadding = PaddingValues(16.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
@@ -139,7 +139,9 @@ fun OcupacionItem(
     onEdit: () -> Unit
 ) {
     ElevatedCard(
-        modifier = Modifier.fillMaxSize().clickable{onEdit()}
+        modifier = Modifier.fillMaxWidth()
+            .clickable { onEdit() }
+            .testTag("ocupacion_card_${ocupacion.ocupacionesId}")
     ) {
         Row(
             modifier = Modifier

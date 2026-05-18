@@ -18,6 +18,7 @@ turbine = "1.1.0"
 kotlin = "2.1.0"
 ksp = "2.1.0-1.0.29"
 remoteCreationCore = "1.0.0-alpha010"
+uiTestJunit4 = "1.11.1"
 
 
 [libraries]
@@ -57,6 +58,7 @@ mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 androidx-arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "archCoreTesting" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
+androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "uiTestJunit4" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
