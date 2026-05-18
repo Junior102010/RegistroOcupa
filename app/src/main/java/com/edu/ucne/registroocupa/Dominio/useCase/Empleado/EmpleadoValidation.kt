@@ -15,7 +15,7 @@ fun validateNombres(nombres : String) : EmpleadoValidation
 {
     return when{
         nombres.isBlank() -> EmpleadoValidation(false, "La Nombres NO DEBE ESTAR VACIA 😡")
-        nombres.length < 2 -> EmpleadoValidation(false, "La Nombres DEBE TENER AL MENOS 2 CARACTERES")
+        nombres.length < 3 -> EmpleadoValidation(false, "La Nombres DEBE TENER AL MENOS 3 CARACTERES")
         else -> EmpleadoValidation(true)
     }
 }

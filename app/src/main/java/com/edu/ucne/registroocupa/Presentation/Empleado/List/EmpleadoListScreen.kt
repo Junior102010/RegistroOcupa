@@ -111,7 +111,7 @@ fun EmpleadoListBody(
                     )
                 } else {
                     LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier.fillMaxSize().testTag("Empleados_list"),
                         contentPadding = PaddingValues(16.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
@@ -139,7 +139,7 @@ fun EmpleadoItem(
     onEdit: () -> Unit
 ) {
     ElevatedCard(
-        modifier = Modifier.fillMaxSize().clickable{onEdit()}
+        modifier = Modifier.fillMaxWidth().clickable{onEdit()}.testTag("Empleado_card_${empleado.empleadoId}")
     ) {
         Row(
             modifier = Modifier

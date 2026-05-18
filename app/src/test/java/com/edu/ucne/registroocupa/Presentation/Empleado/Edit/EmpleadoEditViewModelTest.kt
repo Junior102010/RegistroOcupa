@@ -2,17 +2,10 @@ package com.edu.ucne.registroocupa.Presentation.Empleado.Edit
 
 import androidx.lifecycle.SavedStateHandle
 import com.edu.ucne.registroocupa.Dominio.Models.Empleado
-import com.edu.ucne.registroocupa.Dominio.Models.Ocupacion
 import com.edu.ucne.registroocupa.Dominio.Repository.EmpleadoRepository
-import com.edu.ucne.registroocupa.Dominio.Repository.OcupacionRepository
 import com.edu.ucne.registroocupa.Dominio.useCase.Empleado.DeleteEmpleadoUseCase
 import com.edu.ucne.registroocupa.Dominio.useCase.Empleado.UpsertEmpleadoUseCase
 import com.edu.ucne.registroocupa.Dominio.useCase.Empleado.getEmpleadoUseCase
-import com.edu.ucne.registroocupa.Dominio.useCase.Ocupacion.DeleteOcupacionUseCase
-import com.edu.ucne.registroocupa.Dominio.useCase.Ocupacion.UpsertOcupacionUseCase
-import com.edu.ucne.registroocupa.Dominio.useCase.Ocupacion.getOcupacionUseCase
-import com.edu.ucne.registroocupa.Presentation.Ocupacion.Edit.EditOcupacionUiEvent
-import com.edu.ucne.registroocupa.Presentation.Ocupacion.Edit.EditOcupacionViewModel
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -31,10 +24,13 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 import java.time.LocalDate
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class OcupacionEditViewModelTest {
+@RunWith(RobolectricTestRunner::class)
+class EmpleadoEditViewModelTest {
 
     private val dispatcher = StandardTestDispatcher()
     private lateinit var getTask: getEmpleadoUseCase
@@ -78,8 +74,8 @@ class OcupacionEditViewModelTest {
 
     @Test
     fun load_withId_populatesFields() = runTest(dispatcher) {
-        val ocupacion = Empleado(empleadoId = 7, nombres = "juan", sueldo = 9.0, fechaIngreso = LocalDate.now(), sexo = "Femenino")
-        coEvery { getTask(7) } returns ocupacion
+        val empleado = Empleado(empleadoId = 7, nombres = "juan", sueldo = 9.0, fechaIngreso = LocalDate.now(), sexo = "Femenino")
+        coEvery { getTask(7) } returns empleado
 
         val vm = createViewModel(7)
         runCurrent()

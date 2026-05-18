@@ -9,8 +9,11 @@ import androidx.compose.ui.test.performClick
 import com.edu.ucne.registroocupa.Dominio.Models.Empleado
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 import java.time.LocalDate
 
+@RunWith(RobolectricTestRunner::class)
 class EmpleadoListScreenTest {
 
     @get:Rule
