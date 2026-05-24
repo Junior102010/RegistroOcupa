@@ -3,8 +3,9 @@ package com.edu.ucne.registroocupa.di
 import android.content.Context
 import androidx.room.Room
 import com.edu.ucne.registroocupa.data.dataBase.RegistroDB
-import com.edu.ucne.registroocupa.data.local.EmpleadoDao
-import com.edu.ucne.registroocupa.data.local.OcupacionDao
+import com.edu.ucne.registroocupa.data.local.Empleado.EmpleadoDao
+import com.edu.ucne.registroocupa.data.local.Ocupacion.OcupacionDao
+import com.edu.ucne.registroocupa.data.local.horaExtra.HoraExtraDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,5 +41,12 @@ object DatabaseModule {
     fun provideEmpleadoDao(database: RegistroDB): EmpleadoDao
     {
         return database.EmpleadoDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideHoraExtraDao(database: RegistroDB): HoraExtraDao
+    {
+        return database.HoraExtraDao()
     }
 }

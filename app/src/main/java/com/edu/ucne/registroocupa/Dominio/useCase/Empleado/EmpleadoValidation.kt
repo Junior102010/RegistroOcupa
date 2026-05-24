@@ -1,6 +1,8 @@
 package com.edu.ucne.registroocupa.Dominio.useCase.Empleado
 
-import com.edu.ucne.registroocupa.Dominio.Models.Empleado
+import com.edu.ucne.registroocupa.Dominio.Models.Empleado.Empleado
+import com.edu.ucne.registroocupa.Dominio.useCase.HoraExtra.HoraExtraValidation
+import com.edu.ucne.registroocupa.data.local.Empleado.FrecuenciaPago
 import java.time.LocalDate
 
 data class EmpleadoValidation(
@@ -16,6 +18,24 @@ fun validateNombres(nombres : String) : EmpleadoValidation
     return when{
         nombres.isBlank() -> EmpleadoValidation(false, "La Nombres NO DEBE ESTAR VACIA 😡")
         nombres.length < 3 -> EmpleadoValidation(false, "La Nombres DEBE TENER AL MENOS 3 CARACTERES")
+        else -> EmpleadoValidation(true)
+    }
+}
+
+fun validateFrecuenciaPago(frecuenciaPago: FrecuenciaPago) : EmpleadoValidation
+{
+    return when{
+        frecuenciaPago.mensaje.isBlank() -> EmpleadoValidation(false, "La Frecuencia de Pago NO DEBE ESTAR VACIA 😡")
+
+        else -> EmpleadoValidation(true)
+    }
+}
+
+fun validateOcupacionesId(id : Int) : EmpleadoValidation
+{
+    return when{
+        id == null  -> EmpleadoValidation(false, "La Id Ocupacion NO DEBE ESTAR VACIA 😡")
+        id < 1 -> EmpleadoValidation(false, "El Id DEBE SER MAYOR A 0")
         else -> EmpleadoValidation(true)
     }
 }

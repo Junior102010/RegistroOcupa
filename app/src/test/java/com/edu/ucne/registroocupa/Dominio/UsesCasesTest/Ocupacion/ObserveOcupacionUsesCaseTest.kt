@@ -1,7 +1,7 @@
 package com.edu.ucne.registroocupa.Dominio.UsesCasesTest.Ocupacion
 
 import app.cash.turbine.test
-import com.edu.ucne.registroocupa.Dominio.Models.Ocupacion
+import com.edu.ucne.registroocupa.Dominio.Models.Ocupacion.Ocupacion
 import com.edu.ucne.registroocupa.Dominio.Repository.OcupacionRepository
 import com.edu.ucne.registroocupa.Dominio.useCase.Ocupacion.ObserveOcupacionesUseCase
 import io.mockk.every

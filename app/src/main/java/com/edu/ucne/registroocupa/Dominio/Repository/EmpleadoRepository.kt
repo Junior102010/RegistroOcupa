@@ -1,6 +1,6 @@
 package com.edu.ucne.registroocupa.Dominio.Repository
 
-import com.edu.ucne.registroocupa.Dominio.Models.Empleado
+import com.edu.ucne.registroocupa.Dominio.Models.Empleado.Empleado
 import kotlinx.coroutines.flow.Flow
 
 interface EmpleadoRepository {

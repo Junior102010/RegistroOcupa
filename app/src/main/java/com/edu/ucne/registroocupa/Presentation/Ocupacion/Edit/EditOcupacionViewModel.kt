@@ -4,11 +4,11 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.edu.ucne.registroocupa.Dominio.Models.Ocupacion
+import com.edu.ucne.registroocupa.Dominio.Models.Ocupacion.Ocupacion
 import com.edu.ucne.registroocupa.Dominio.Repository.OcupacionRepository
 import com.edu.ucne.registroocupa.Dominio.useCase.Ocupacion.DeleteOcupacionUseCase
 import com.edu.ucne.registroocupa.Dominio.useCase.Ocupacion.UpsertOcupacionUseCase
-import com.edu.ucne.registroocupa.Dominio.useCase.Ocupacion.getOcupacionUseCase
+import com.edu.ucne.registroocupa.Dominio.useCase.Ocupacion.GetOcupacionUseCase
 import com.edu.ucne.registroocupa.Dominio.useCase.Ocupacion.validateDescription
 import com.edu.ucne.registroocupa.Dominio.useCase.Ocupacion.validateSueldo
 import com.edu.ucne.registroocupa.Presentation.navigation.Screen
@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class EditOcupacionViewModel @Inject constructor(
-    private val getOcupacionUseCase: getOcupacionUseCase,
+    private val getOcupacionUseCase: GetOcupacionUseCase,
     private val upsertOcupacionUseCase: UpsertOcupacionUseCase,
     private val deleteOcupacionUseCase: DeleteOcupacionUseCase,
     private val repository: OcupacionRepository,

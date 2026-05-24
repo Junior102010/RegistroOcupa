@@ -1,11 +1,11 @@
 package com.edu.ucne.registroocupa.Presentation.Empleado.Edit
 
 import androidx.lifecycle.SavedStateHandle
-import com.edu.ucne.registroocupa.Dominio.Models.Empleado
+import com.edu.ucne.registroocupa.Dominio.Models.Empleado.Empleado
 import com.edu.ucne.registroocupa.Dominio.Repository.EmpleadoRepository
 import com.edu.ucne.registroocupa.Dominio.useCase.Empleado.DeleteEmpleadoUseCase
 import com.edu.ucne.registroocupa.Dominio.useCase.Empleado.UpsertEmpleadoUseCase
-import com.edu.ucne.registroocupa.Dominio.useCase.Empleado.getEmpleadoUseCase
+import com.edu.ucne.registroocupa.Dominio.useCase.Empleado.GetEmpleadoUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -33,7 +33,7 @@ import java.time.LocalDate
 class EmpleadoEditViewModelTest {
 
     private val dispatcher = StandardTestDispatcher()
-    private lateinit var getTask: getEmpleadoUseCase
+    private lateinit var getTask: GetEmpleadoUseCase
     private lateinit var upsertTask: UpsertEmpleadoUseCase
     private lateinit var deleteTask: DeleteEmpleadoUseCase
     private lateinit var repository: EmpleadoRepository

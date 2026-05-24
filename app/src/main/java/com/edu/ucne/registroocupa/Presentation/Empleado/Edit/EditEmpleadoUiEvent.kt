@@ -1,5 +1,6 @@
 package com.edu.ucne.registroocupa.Presentation.Empleado.Edit
 
+import com.edu.ucne.registroocupa.data.local.Empleado.FrecuenciaPago
 import java.time.LocalDate
 
 sealed interface EditEmpleadoUiEvent {
@@ -9,6 +10,11 @@ sealed interface EditEmpleadoUiEvent {
 
     data class FechaIngresoChanged(val value: LocalDate) : EditEmpleadoUiEvent
     data class SueldoChanged(val value: String) : EditEmpleadoUiEvent
+
+    data class FrecuenciaPagoChanged(val value: FrecuenciaPago) : EditEmpleadoUiEvent
+
+    data class OcupacionIdChanged(val value: Int) : EditEmpleadoUiEvent
+    
     data object Save : EditEmpleadoUiEvent
     data object Delete : EditEmpleadoUiEvent
 }

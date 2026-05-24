@@ -1,6 +1,6 @@
 package com.edu.ucne.registroocupa.Presentation.Ocupacion.List
 
-import com.edu.ucne.registroocupa.Dominio.Models.Ocupacion
+import com.edu.ucne.registroocupa.Dominio.Models.Ocupacion.Ocupacion
 
 data class OcupacionListUiState(
     val isLoading: Boolean = false,

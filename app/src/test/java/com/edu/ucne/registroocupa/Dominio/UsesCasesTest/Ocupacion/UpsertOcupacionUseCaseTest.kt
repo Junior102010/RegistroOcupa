@@ -1,6 +1,6 @@
 package com.edu.ucne.registroocupa.Dominio.UsesCasesTest.Ocupacion
 
-import com.edu.ucne.registroocupa.Dominio.Models.Ocupacion
+import com.edu.ucne.registroocupa.Dominio.Models.Ocupacion.Ocupacion
 import com.edu.ucne.registroocupa.Dominio.Repository.OcupacionRepository
 import com.edu.ucne.registroocupa.Dominio.useCase.Ocupacion.UpsertOcupacionUseCase
 import io.mockk.coEvery

@@ -1,8 +1,8 @@
 package com.edu.ucne.registroocupa.Dominio.UsesCasesTest.Ocupacion
 
-import com.edu.ucne.registroocupa.Dominio.Models.Ocupacion
+import com.edu.ucne.registroocupa.Dominio.Models.Ocupacion.Ocupacion
 import com.edu.ucne.registroocupa.Dominio.Repository.OcupacionRepository
-import com.edu.ucne.registroocupa.Dominio.useCase.Ocupacion.getOcupacionUseCase
+import com.edu.ucne.registroocupa.Dominio.useCase.Ocupacion.GetOcupacionUseCase
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
@@ -13,12 +13,12 @@ import org.junit.Test
 
 class GetOcupacionUseCaseTest {
     private lateinit var repository: OcupacionRepository
-    private lateinit var useCase: getOcupacionUseCase
+    private lateinit var useCase: GetOcupacionUseCase
 
     @Before
     fun setup() {
         repository = mockk()
-        useCase = getOcupacionUseCase(repository)
+        useCase = GetOcupacionUseCase(repository)
     }
 
     @Test

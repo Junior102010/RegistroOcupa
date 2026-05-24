@@ -1,10 +1,10 @@
 package com.edu.ucne.registroocupa.data.Repository
 
-import com.edu.ucne.registroocupa.Dominio.Models.Empleado
+import com.edu.ucne.registroocupa.Dominio.Models.Empleado.Empleado
 import com.edu.ucne.registroocupa.Dominio.Repository.EmpleadoRepository
 import com.edu.ucne.registroocupa.data.Mapped.toDomain
 import com.edu.ucne.registroocupa.data.Mapped.toEntity
-import com.edu.ucne.registroocupa.data.local.EmpleadoDao
+import com.edu.ucne.registroocupa.data.local.Empleado.EmpleadoDao
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

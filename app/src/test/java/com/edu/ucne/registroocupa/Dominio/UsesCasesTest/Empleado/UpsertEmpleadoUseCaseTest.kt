@@ -1,6 +1,6 @@
 package com.edu.ucne.registroocupa.Dominio.UsesCasesTest.Empleado
 
-import com.edu.ucne.registroocupa.Dominio.Models.Empleado
+import com.edu.ucne.registroocupa.Dominio.Models.Empleado.Empleado
 import com.edu.ucne.registroocupa.Dominio.Repository.EmpleadoRepository
 import com.edu.ucne.registroocupa.Dominio.useCase.Empleado.UpsertEmpleadoUseCase
 import io.mockk.coEvery

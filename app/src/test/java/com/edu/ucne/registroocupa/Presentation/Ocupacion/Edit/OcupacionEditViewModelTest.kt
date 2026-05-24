@@ -1,11 +1,11 @@
 package com.edu.ucne.registroocupa.Presentation.Ocupacion.Edit
 
 import androidx.lifecycle.SavedStateHandle
-import com.edu.ucne.registroocupa.Dominio.Models.Ocupacion
+import com.edu.ucne.registroocupa.Dominio.Models.Ocupacion.Ocupacion
 import com.edu.ucne.registroocupa.Dominio.Repository.OcupacionRepository
 import com.edu.ucne.registroocupa.Dominio.useCase.Ocupacion.DeleteOcupacionUseCase
 import com.edu.ucne.registroocupa.Dominio.useCase.Ocupacion.UpsertOcupacionUseCase
-import com.edu.ucne.registroocupa.Dominio.useCase.Ocupacion.getOcupacionUseCase
+import com.edu.ucne.registroocupa.Dominio.useCase.Ocupacion.GetOcupacionUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -32,7 +32,7 @@ import org.robolectric.RobolectricTestRunner
 class OcupacionEditViewModelTest {
 
     private val dispatcher = StandardTestDispatcher()
-    private lateinit var getTask: getOcupacionUseCase
+    private lateinit var getTask: GetOcupacionUseCase
     private lateinit var upsertTask: UpsertOcupacionUseCase
     private lateinit var deleteTask: DeleteOcupacionUseCase
     private lateinit var repository: OcupacionRepository
