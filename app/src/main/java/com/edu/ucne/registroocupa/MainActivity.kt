@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -37,7 +38,8 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 val items = listOf(
                     TopLevelRoute("Empleado", Screen.EmpleadoList, Icons.Default.Person),
-                    TopLevelRoute("Ocupacion", Screen.OcupacionList, Icons.Default.Home)
+                    TopLevelRoute("Ocupacion", Screen.OcupacionList, Icons.Default.Home),
+                    TopLevelRoute("Horas Extra", Screen.HoraExtraList, Icons.Default.AccessTime)
                 )
                 Scaffold(
                     bottomBar = {

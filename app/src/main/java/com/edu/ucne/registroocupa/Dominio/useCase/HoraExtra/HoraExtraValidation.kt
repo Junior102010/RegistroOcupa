@@ -30,10 +30,11 @@ fun validateCantidadHora(cantidadHora : String) : HoraExtraValidation
 }
 
 
-fun validateFecha(fecha : LocalDate) : HoraExtraValidation
+fun validateFechaHora(fecha : LocalDate) : HoraExtraValidation
 {
     return when{
         fecha.isAfter(LocalDate.now()) -> HoraExtraValidation(false, "La Fecha no puede ser MAYOR A LA ACTUAL")
         else -> HoraExtraValidation(true)
     }
 }
+

@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.edu.ucne.registroocupa.Dominio.Models.Empleado.Empleado
-import com.edu.ucne.registroocupa.Dominio.Repository.EmpleadoRepository
 import com.edu.ucne.registroocupa.Dominio.useCase.Empleado.DeleteEmpleadoUseCase
 import com.edu.ucne.registroocupa.Dominio.useCase.Empleado.UpsertEmpleadoUseCase
 import com.edu.ucne.registroocupa.Dominio.useCase.Empleado.GetEmpleadoUseCase
@@ -15,6 +14,7 @@ import com.edu.ucne.registroocupa.Dominio.useCase.Empleado.validateNombres
 import com.edu.ucne.registroocupa.Dominio.useCase.Empleado.validateOcupacionesId
 import com.edu.ucne.registroocupa.Dominio.useCase.Empleado.validateSexo
 import com.edu.ucne.registroocupa.Dominio.useCase.Empleado.validateSueldo
+import com.edu.ucne.registroocupa.Dominio.useCase.Ocupacion.ObserveOcupacionesUseCase
 import com.edu.ucne.registroocupa.Presentation.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
@@ -29,7 +29,7 @@ class EditEmpleadoViewModel @Inject constructor(
     private val getEmpleadoUseCase: GetEmpleadoUseCase,
     private val upsertEmpleadoUseCase: UpsertEmpleadoUseCase,
     private val deleteEmpleadoUseCase: DeleteEmpleadoUseCase,
-    private val repository: EmpleadoRepository,
+    private val observeOcupacionesUseCase: ObserveOcupacionesUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val routeArgs = savedStateHandle.toRoute<Screen.EmpleadoEdit>()
@@ -40,6 +40,15 @@ class EditEmpleadoViewModel @Inject constructor(
 
     init {
         loadEmpleado(empleadoId)
+        observeOcupaciones()
+    }
+
+    private fun observeOcupaciones() {
+        viewModelScope.launch {
+            observeOcupacionesUseCase().collect { ocupaciones ->
+                _state.update { it.copy(ocupaciones = ocupaciones) }
+            }
+        }
     }
 
     fun onEvent(event: EditEmpleadoUiEvent) {

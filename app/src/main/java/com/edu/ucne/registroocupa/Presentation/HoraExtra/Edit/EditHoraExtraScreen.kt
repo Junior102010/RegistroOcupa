@@ -1,4 +1,4 @@
-package com.edu.ucne.registroocupa.Presentation.Empleado.Edit
+package com.edu.ucne.registroocupa.Presentation.HoraExtra.Edit
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -45,15 +45,16 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.edu.ucne.registroocupa.Dominio.Models.Ocupacion.Ocupacion
 import com.edu.ucne.registroocupa.data.local.Empleado.FrecuenciaPago
+import com.edu.ucne.registroocupa.data.local.horaExtra.TipoHoraExtra
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import kotlin.let
 
 @Composable
-fun EditEmpleadoScreen(
-    viewModel: EditEmpleadoViewModel = hiltViewModel(),
+fun EditHoraExtraScreen(
+    viewModel: EditHoraExtraViewModel = hiltViewModel(),
     onBack: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -64,7 +65,7 @@ fun EditEmpleadoScreen(
         }
     }
 
-    EditEmpleadoBody(
+    EditHoraExtraBody(
         state = state,
         onEvent = viewModel::onEvent,
         onBack = onBack
@@ -73,24 +74,22 @@ fun EditEmpleadoScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditEmpleadoBody(
-    state: EditEmpleadoUiState,
-    onEvent: (EditEmpleadoUiEvent) -> Unit,
+fun EditHoraExtraBody(
+    state: EditHoraExtraUiState,
+    onEvent: (EditHoraExtraUiEvent) -> Unit,
     onBack: () -> Unit
 ) {
     var showDatePicker by remember { mutableStateOf(false) }
-    var expandedSexo by remember { mutableStateOf(false) }
-    var expandedOcupacion by remember { mutableStateOf(false) }
-    var expandedFrecuencia by remember { mutableStateOf(false) }
+    var expandedEmpleado by remember { mutableStateOf(false) }
+    var expandedTipoHoraExtra by remember { mutableStateOf(false) }
 
-    val sexos = listOf("Masculino", "Femenino", "Otros")
-    val frecuencias = FrecuenciaPago.entries
+    val tipoHoraExtra = TipoHoraExtra.entries
 
-    val selectedOcupacion = state.ocupaciones.find { it.ocupacionesId == state.ocupacionId }
+    val selectedEmpleado = state.empleados.find { it.empleadoId == state.empleadoId }
 
     if (showDatePicker) {
         val datePickerState = rememberDatePickerState(
-            initialSelectedDateMillis = state.fechaIngreso
+            initialSelectedDateMillis = state.fechaHoras
                 .atStartOfDay(ZoneId.systemDefault())
                 .toInstant()
                 .toEpochMilli()
@@ -103,7 +102,7 @@ fun EditEmpleadoBody(
                         val date = Instant.ofEpochMilli(millis)
                             .atZone(ZoneId.of("UTC"))
                             .toLocalDate()
-                        onEvent(EditEmpleadoUiEvent.FechaIngresoChanged(date))
+                        onEvent(EditHoraExtraUiEvent.FechaHorasChanged(date))
                     }
                     showDatePicker = false
                 }) {
@@ -123,7 +122,7 @@ fun EditEmpleadoBody(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(if (state.isNew) "Nuevo Empleado" else "Editar Empleado") },
+                title = { Text(if (state.isNew) "Nueva Horas Extra" else "Editar Horas Extras") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Atras")
@@ -139,64 +138,19 @@ fun EditEmpleadoBody(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            OutlinedTextField(
-                value = state.nombres,
-                onValueChange = { onEvent(EditEmpleadoUiEvent.NombresChanged(it)) },
-                label = { Text("Nombres") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .testTag("input_nombres"),
-                isError = state.nombresError != null,
-                supportingText = state.nombresError?.let { { Text(it) } },
-                singleLine = true
-            )
-
-            Box(modifier = Modifier.fillMaxWidth()) {
-                OutlinedTextField(
-                    value = state.sexo,
-                    onValueChange = { },
-                    readOnly = true,
-                    label = { Text("Sexo") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .testTag("input_sexo")
-                        .clickable { expandedSexo = true },
-                    isError = state.sexoError != null,
-                    supportingText = state.sexoError?.let { { Text(it) } },
-                    trailingIcon = {
-                        IconButton(onClick = { expandedSexo = true }) {
-                            Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = "Seleccionar Sexo")
-                        }
-                    }
-                )
-                DropdownMenu(
-                    expanded = expandedSexo,
-                    onDismissRequest = { expandedSexo = false },
-                    modifier = Modifier.fillMaxWidth(0.9f)
-                ) {
-                    sexos.forEach { sexoOption ->
-                        DropdownMenuItem(
-                            text = { Text(sexoOption) },
-                            onClick = {
-                                onEvent(EditEmpleadoUiEvent.SexoChanged(sexoOption))
-                                expandedSexo = false
-                            }
-                        )
-                    }
-                }
-            }
+            
 
             OutlinedTextField(
-                value = state.fechaIngreso.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                value = state.fechaHoras.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
                 onValueChange = { },
                 readOnly = true,
-                label = { Text("Fecha de Ingreso") },
+                label = { Text("Fecha de las Horas") },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .testTag("input_fecha_ingreso")
+                    .testTag("input_fecha_Horas")
                     .clickable { showDatePicker = true },
-                isError = state.fechaIngresoError != null,
-                supportingText = state.fechaIngresoError?.let { { Text(it) } },
+                isError = state.fechaHorasError != null,
+                supportingText = state.fechaHorasError?.let { { Text(it) } },
                 trailingIcon = {
                     IconButton(onClick = { showDatePicker = true }) {
                         Icon(imageVector = Icons.Default.DateRange, contentDescription = "Seleccionar Fecha")
@@ -204,86 +158,104 @@ fun EditEmpleadoBody(
                 }
             )
 
-            OutlinedTextField(
-                value = state.sueldo,
-                onValueChange = { onEvent(EditEmpleadoUiEvent.SueldoChanged(it)) },
-                label = { Text("Sueldo") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .testTag("input_sueldo"),
-                isError = state.sueldoError != null,
-                supportingText = state.sueldoError?.let { { Text(it) } },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                singleLine = true
-            )
-
             Box(modifier = Modifier.fillMaxWidth()) {
                 OutlinedTextField(
-                    value = selectedOcupacion?.descripcion ?: "Seleccionar Ocupación",
+                    value = selectedEmpleado?.nombres ?: "Seleccionar Empleado",
                     onValueChange = { },
                     readOnly = true,
-                    label = { Text("Ocupación") },
+                    label = { Text("Empleado") },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { expandedOcupacion = true },
-                    isError = state.ocupacionIdError != null,
-                    supportingText = state.ocupacionIdError?.let { { Text(it) } },
+                        .clickable { expandedEmpleado = true },
+                    isError = state.empleadoIdError != null,
+                    supportingText = state.empleadoIdError?.let { { Text(it) } },
                     trailingIcon = {
-                        IconButton(onClick = { expandedOcupacion = true }) {
-                            Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = "Seleccionar Ocupación")
+                        IconButton(onClick = { expandedEmpleado = true }) {
+                            Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = "Seleccionar Empleado")
                         }
                     }
                 )
                 DropdownMenu(
-                    expanded = expandedOcupacion,
-                    onDismissRequest = { expandedOcupacion = false },
+                    expanded = expandedEmpleado,
+                    onDismissRequest = { expandedEmpleado = false },
                     modifier = Modifier.fillMaxWidth(0.9f)
                 ) {
-                    state.ocupaciones.forEach { ocupacion ->
+                    state.empleados.forEach { empleado ->
                         DropdownMenuItem(
-                            text = { Text(ocupacion.descripcion) },
+                            text = { Text(empleado.nombres) },
                             onClick = {
-                                onEvent(EditEmpleadoUiEvent.OcupacionIdChanged(ocupacion.ocupacionesId))
-                                expandedOcupacion = false
+                                onEvent(EditHoraExtraUiEvent.EmpleadoIdChanged(empleado.empleadoId))
+                                expandedEmpleado = false
                             }
                         )
                     }
                 }
             }
 
+            OutlinedTextField(
+                value = state.cantidadHoraExtra.toString(),
+                onValueChange = { onEvent(EditHoraExtraUiEvent.CantidadHoraExtraChanged(it.toIntOrNull() ?: 0)) },
+                label = { Text("Cantidad Horas Extras") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag("input_CantidadHoras"),
+                isError = state.cantidadHoraExtraError != null,
+                supportingText = state.cantidadHoraExtraError?.let { { Text(it) } },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                singleLine = true
+            )
+
+
+
             Box(modifier = Modifier.fillMaxWidth()) {
                 OutlinedTextField(
-                    value = state.frecuenciaPago.mensaje,
+                    value = state.tipoHoraExtra.descripcion,
                     onValueChange = { },
                     readOnly = true,
-                    label = { Text("Frecuencia de Pago") },
+                    label = { Text("Tipo de Hora Extra") },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { expandedFrecuencia = true },
-                    isError = state.frecuenciaPagoError != null,
-                    supportingText = state.frecuenciaPagoError?.let { { Text(it) } },
+                        .clickable { expandedTipoHoraExtra = true },
+                    isError = state.tipoHoraExtraError != null,
+                    supportingText = state.tipoHoraExtraError?.let { { Text(it) } },
                     trailingIcon = {
-                        IconButton(onClick = { expandedFrecuencia = true }) {
+                        IconButton(onClick = { expandedTipoHoraExtra = true }) {
                             Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = "Seleccionar Frecuencia")
                         }
                     }
                 )
                 DropdownMenu(
-                    expanded = expandedFrecuencia,
-                    onDismissRequest = { expandedFrecuencia = false },
+                    expanded = expandedTipoHoraExtra,
+                    onDismissRequest = { expandedTipoHoraExtra = false },
                     modifier = Modifier.fillMaxWidth(0.9f)
                 ) {
-                    frecuencias.forEach { frecuencia ->
+                    tipoHoraExtra.forEach { tipoHoraExtra ->
                         DropdownMenuItem(
-                            text = { Text(frecuencia.mensaje) },
+                            text = { Text(tipoHoraExtra.descripcion) },
                             onClick = {
-                                onEvent(EditEmpleadoUiEvent.FrecuenciaPagoChanged(frecuencia))
-                                expandedFrecuencia = false
+                                onEvent(EditHoraExtraUiEvent.TipoHoraExtraChanged(tipoHoraExtra))
+                                expandedTipoHoraExtra = false
                             }
                         )
                     }
                 }
             }
+
+            Text(
+                text = "Monto a Pagar: RD$ ${state.recargo}",
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
+
+            if (state.esPuestoEjecutivo) {
+                Text(
+                    text = "* Este empleado pertenece a un puesto ejecutivo, no devenga horas extras.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.error
+                )
+            }
+
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -291,7 +263,7 @@ fun EditEmpleadoBody(
             ) {
                 if (!state.isNew) {
                     Button(
-                        onClick = { onEvent(EditEmpleadoUiEvent.Delete) },
+                        onClick = { onEvent(EditHoraExtraUiEvent.Delete) },
                         modifier = Modifier
                             .weight(1f)
                             .testTag("btn_eliminar"),
@@ -311,7 +283,7 @@ fun EditEmpleadoBody(
                 }
 
                 Button(
-                    onClick = { onEvent(EditEmpleadoUiEvent.Save) },
+                    onClick = { onEvent(EditHoraExtraUiEvent.Save) },
                     modifier = Modifier
                         .weight(if (state.isNew) 1f else 2f)
                         .testTag("btn_guardar"),

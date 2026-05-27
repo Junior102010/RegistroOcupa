@@ -174,16 +174,6 @@ fun EmpleadoItem(
 
 
             }
-
-            IconButton(
-                onClick = onDelete,
-                modifier = Modifier.testTag("btn_delete_${empleado.empleadoId}")
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Delete,
-                    contentDescription = "Eliminar Empleado"
-                )
-            }
         }
     }
 }

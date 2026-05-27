@@ -12,5 +12,6 @@ fun OcupacionEntity.toDomain() : Ocupacion = Ocupacion(
 fun Ocupacion.toEntity() : OcupacionEntity = OcupacionEntity(
     ocupacionesId = ocupacionesId,
     descripcion = descripcion,
-    sueldo = sueldo
+    sueldo = sueldo,
+    esPuestoEjecutivo = esPuestoEjecutivo
 )

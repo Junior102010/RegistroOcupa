@@ -1,4 +1,4 @@
-package com.edu.ucne.registroocupa.Presentation.Ocupacion.List
+package com.edu.ucne.registroocupa.Presentation.HoraExtra.List
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -32,35 +32,35 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.edu.ucne.registroocupa.Dominio.Models.Ocupacion.Ocupacion
+import com.edu.ucne.registroocupa.Dominio.Models.Empleado.Empleado
+import com.edu.ucne.registroocupa.Dominio.Models.horaExtra.HoraExtra
 
 @Composable
-fun OcupacionListScreen(
-    viewModel: OcupacionListViewModel = hiltViewModel(),
-    onAddOcupacion: () -> Unit,
-    onEditOcupacion: (Int) -> Unit
+fun HoraExtraListScreen(
+    viewModel: HoraExtraListViewModel = hiltViewModel(),
+    onAddHoraExtra: () -> Unit,
+    onEditHoraExtra: (Int) -> Unit
 ) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    OcupacionListBody(
+    HoraExtraListBody(
         state = state,
         onEvent = viewModel::onEvent,
-        onAddClick = onAddOcupacion,
-        onEditClick = onEditOcupacion
+        onAddClick = onAddHoraExtra,
+        onEditClick = onEditHoraExtra
     )
 
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OcupacionListBody(
-    state: OcupacionListUiState,
-    onEvent: (OcupacionListUiEvent) -> Unit,
+fun HoraExtraListBody(
+    state: HoraExtraListUiState,
+    onEvent: (HoraExtraListUiEvent) -> Unit,
     onAddClick: () -> Unit,
     onEditClick: (Int) -> Unit
 
@@ -70,7 +70,7 @@ fun OcupacionListBody(
     LaunchedEffect(state.message) {
         state.message?.let { message ->
             snackbarHostState.showSnackbar(message)
-            onEvent(OcupacionListUiEvent.ClearMessage)
+            onEvent(HoraExtraListUiEvent.ClearMessage)
         }
     }
 
@@ -84,7 +84,7 @@ fun OcupacionListBody(
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = "Agregar Ocupacion!"
+                    contentDescription = "Agregar Horas Extra!"
                 )
             }
         }
@@ -101,9 +101,9 @@ fun OcupacionListBody(
                         .testTag("loading")
                 )
             } else {
-                if (state.ocupaciones.isEmpty()) {
+                if (state.HoraExtras.isEmpty()) {
                     Text(
-                        text = "No hay Ocupaciones",
+                        text = "No hay Horas Extras",
                         modifier = Modifier
                             .align(Alignment.Center)
                             .testTag("empty_message"),
@@ -111,18 +111,20 @@ fun OcupacionListBody(
                     )
                 } else {
                     LazyColumn(
-                        modifier = Modifier.fillMaxSize().testTag("Ocupaciones_list"),
+                        modifier = Modifier.fillMaxSize().testTag("HoraExtra_list"),
                         contentPadding = PaddingValues(16.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         items(
-                            items = state.ocupaciones,
-                            key = { it.ocupacionesId }
-                        ) { Ocupacion ->
-                            OcupacionItem(
-                                ocupacion = Ocupacion,
-                                onEdit = {onEditClick(Ocupacion.ocupacionesId)},
-                                onDelete = {onEvent(OcupacionListUiEvent.Delete(Ocupacion.ocupacionesId))}
+                            items = state.HoraExtras,
+                            key = { it.horaExtraId }
+                        ) { horaExtra ->
+                            val empleado = state.Empleados.find { it.empleadoId == horaExtra.empleadoId }
+                            val nombreEmpleado = empleado?.nombres ?: "Empleado Deconocido"
+                            HoraExtraItem(
+                                horaExtra = horaExtra,
+                                empleadoNombre = nombreEmpleado,
+                                onEdit = {onEditClick(horaExtra.horaExtraId)}
                             )
                         }
                     }
@@ -133,15 +135,13 @@ fun OcupacionListBody(
 }
 
 @Composable
-fun OcupacionItem(
-    ocupacion: Ocupacion,
-    onDelete: () -> Unit,
-    onEdit: () -> Unit
+fun HoraExtraItem(
+    horaExtra: HoraExtra,
+    onEdit: () -> Unit,
+    empleadoNombre : String
 ) {
     ElevatedCard(
-        modifier = Modifier.fillMaxWidth()
-            .clickable { onEdit() }
-            .testTag("ocupacion_card_${ocupacion.ocupacionesId}")
+        modifier = Modifier.fillMaxWidth().clickable{onEdit()}.testTag("HoraExtra_card_${horaExtra.horaExtraId}")
     ) {
         Row(
             modifier = Modifier
@@ -153,17 +153,30 @@ fun OcupacionItem(
                 modifier = Modifier.weight(1f)
             ) {
                 Text(
-                    text = ocupacion.descripcion,
+                    text = empleadoNombre,
                     style = MaterialTheme.typography.bodyLarge
                 )
 
                 Text(
-                    text = "RD$ ${ocupacion.sueldo}",
+                    text = "Tipo de Horas : ${horaExtra.tipoHoraExtra.descripcion}",
+                    style = MaterialTheme.typography.bodyLarge
+                )
+
+                Text(
+                    text = "Cantidad de Horas: ${horaExtra.cantidadHoraExtra}",
+                    style = MaterialTheme.typography.bodyLarge
+                )
+
+
+
+                Text(
+                    text = "Total a Pagar: RD$ ${horaExtra.recargo}",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.primary
                 )
-            }
 
+
+            }
         }
     }
 }

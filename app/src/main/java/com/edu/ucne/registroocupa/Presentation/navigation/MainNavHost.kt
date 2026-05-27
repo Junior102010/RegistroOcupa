@@ -10,6 +10,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.edu.ucne.registroocupa.Presentation.Empleado.Edit.EditEmpleadoScreen
 import com.edu.ucne.registroocupa.Presentation.Empleado.List.EmpleadoListScreen
+import com.edu.ucne.registroocupa.Presentation.HoraExtra.Edit.EditHoraExtraScreen
+import com.edu.ucne.registroocupa.Presentation.HoraExtra.List.HoraExtraListScreen
 import com.edu.ucne.registroocupa.Presentation.Ocupacion.Edit.EditOcupacionScreen
 import com.edu.ucne.registroocupa.Presentation.Ocupacion.List.OcupacionListScreen
 
@@ -55,6 +57,25 @@ fun MainNavHost(
 
         composable<Screen.EmpleadoEdit> {
             EditEmpleadoScreen(
+                onBack = {
+                    navController.navigateUp()
+                }
+            )
+        }
+
+        composable<Screen.HoraExtraList> {
+            HoraExtraListScreen(
+                onAddHoraExtra = {
+                    navController.navigate(Screen.HoraExtraEdit(0))
+                },
+                onEditHoraExtra = { id ->
+                    navController.navigate(Screen.HoraExtraEdit(horaExtraId = id))
+                }
+            )
+        }
+
+        composable<Screen.HoraExtraEdit> {
+            EditHoraExtraScreen(
                 onBack = {
                     navController.navigateUp()
                 }
