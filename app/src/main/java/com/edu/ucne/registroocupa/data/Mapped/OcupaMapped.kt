@@ -1,7 +1,7 @@
 package com.edu.ucne.registroocupa.data.Mapped
 
-import com.edu.ucne.registroocupa.Dominio.Models.Ocupacion
-import com.edu.ucne.registroocupa.data.local.OcupacionEntity
+import com.edu.ucne.registroocupa.Dominio.Models.Ocupacion.Ocupacion
+import com.edu.ucne.registroocupa.data.local.Ocupacion.OcupacionEntity
 
 fun OcupacionEntity.toDomain() : Ocupacion = Ocupacion(
     ocupacionesId = ocupacionesId,
@@ -12,5 +12,6 @@ fun OcupacionEntity.toDomain() : Ocupacion = Ocupacion(
 fun Ocupacion.toEntity() : OcupacionEntity = OcupacionEntity(
     ocupacionesId = ocupacionesId,
     descripcion = descripcion,
-    sueldo = sueldo
+    sueldo = sueldo,
+    esPuestoEjecutivo = esPuestoEjecutivo
 )

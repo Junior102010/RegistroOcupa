@@ -2,8 +2,8 @@ package com.edu.ucne.registroocupa.Presentation.Ocupacion.List
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.edu.ucne.registroocupa.Dominio.useCase.DeleteOcupacionUseCase
-import com.edu.ucne.registroocupa.Dominio.useCase.ObserveOcupacionesUseCase
+import com.edu.ucne.registroocupa.Dominio.useCase.Ocupacion.DeleteOcupacionUseCase
+import com.edu.ucne.registroocupa.Dominio.useCase.Ocupacion.ObserveOcupacionesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow

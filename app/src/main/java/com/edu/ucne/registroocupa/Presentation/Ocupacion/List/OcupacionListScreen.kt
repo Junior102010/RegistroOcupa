@@ -36,7 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.edu.ucne.registroocupa.Dominio.Models.Ocupacion
+import com.edu.ucne.registroocupa.Dominio.Models.Ocupacion.Ocupacion
 
 @Composable
 fun OcupacionListScreen(
@@ -111,7 +111,7 @@ fun OcupacionListBody(
                     )
                 } else {
                     LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier.fillMaxSize().testTag("Ocupaciones_list"),
                         contentPadding = PaddingValues(16.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
@@ -139,7 +139,9 @@ fun OcupacionItem(
     onEdit: () -> Unit
 ) {
     ElevatedCard(
-        modifier = Modifier.fillMaxSize().clickable{onEdit()}
+        modifier = Modifier.fillMaxWidth()
+            .clickable { onEdit() }
+            .testTag("ocupacion_card_${ocupacion.ocupacionesId}")
     ) {
         Row(
             modifier = Modifier
@@ -162,15 +164,6 @@ fun OcupacionItem(
                 )
             }
 
-            IconButton(
-                onClick = onDelete,
-                modifier = Modifier.testTag("btn_delete_${ocupacion.ocupacionesId}")
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Delete,
-                    contentDescription = "Eliminar tarea"
-                )
-            }
         }
     }
 }

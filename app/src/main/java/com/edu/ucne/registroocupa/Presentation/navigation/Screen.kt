@@ -2,10 +2,23 @@ package com.edu.ucne.registroocupa.Presentation.navigation
 
 import kotlinx.serialization.Serializable
 
+@Serializable
 sealed class Screen {
     @Serializable
     data object OcupacionList : Screen()
 
     @Serializable
     data class OcupacionEdit(val ocupacionId: Int = 0) : Screen()
+
+    @Serializable
+    data object EmpleadoList : Screen()
+
+    @Serializable
+    data class EmpleadoEdit(val empleadoId: Int = 0) : Screen()
+
+    @Serializable
+    data object HoraExtraList : Screen()
+
+    @Serializable
+    data class HoraExtraEdit(val horaExtraId: Int = 0) : Screen()
 }

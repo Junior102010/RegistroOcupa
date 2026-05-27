@@ -1,37 +1,29 @@
 package com.edu.ucne.registroocupa.Presentation.Ocupacion.Edit
 
-import android.R.attr.description
-import kotlinx.coroutines.flow.first
-import android.view.KeyCharacterMap.load
-import androidx.compose.remote.creation.first
-import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.edu.ucne.registroocupa.Dominio.Models.Ocupacion
+import com.edu.ucne.registroocupa.Dominio.Models.Ocupacion.Ocupacion
 import com.edu.ucne.registroocupa.Dominio.Repository.OcupacionRepository
-import com.edu.ucne.registroocupa.Dominio.useCase.DeleteOcupacionUseCase
-import com.edu.ucne.registroocupa.Dominio.useCase.ObserveOcupacionesUseCase
-import com.edu.ucne.registroocupa.Dominio.useCase.UpsertOcupacionUseCase
-import com.edu.ucne.registroocupa.Dominio.useCase.getOcupacionUseCase
-import com.edu.ucne.registroocupa.Dominio.useCase.validateDescription
-import com.edu.ucne.registroocupa.Dominio.useCase.validateSueldo
-import com.edu.ucne.registroocupa.Presentation.Ocupacion.List.OcupacionListUiEvent
+import com.edu.ucne.registroocupa.Dominio.useCase.Ocupacion.DeleteOcupacionUseCase
+import com.edu.ucne.registroocupa.Dominio.useCase.Ocupacion.UpsertOcupacionUseCase
+import com.edu.ucne.registroocupa.Dominio.useCase.Ocupacion.GetOcupacionUseCase
+import com.edu.ucne.registroocupa.Dominio.useCase.Ocupacion.validateDescription
+import com.edu.ucne.registroocupa.Dominio.useCase.Ocupacion.validateSueldo
 import com.edu.ucne.registroocupa.Presentation.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlin.collections.emptyList
-
 
 @HiltViewModel
 class EditOcupacionViewModel @Inject constructor(
-    private val getOcupacionUseCase: getOcupacionUseCase,
+    private val getOcupacionUseCase: GetOcupacionUseCase,
     private val upsertOcupacionUseCase: UpsertOcupacionUseCase,
     private val deleteOcupacionUseCase: DeleteOcupacionUseCase,
     private val repository: OcupacionRepository,

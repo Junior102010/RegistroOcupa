@@ -1,13 +1,16 @@
 package com.edu.ucne.registroocupa.di
 
-
+import com.edu.ucne.registroocupa.Dominio.Repository.EmpleadoRepository
+import com.edu.ucne.registroocupa.Dominio.Repository.HoraExtraRepository
 import com.edu.ucne.registroocupa.Dominio.Repository.OcupacionRepository
+import com.edu.ucne.registroocupa.data.Repository.EmpleadoRepositoryImpl
+import com.edu.ucne.registroocupa.data.Repository.HoraExtraRepositoryImpl
 import com.edu.ucne.registroocupa.data.Repository.OcupacionRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import jakarta.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -15,4 +18,12 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindOcupacionRepository(impl: OcupacionRepositoryImpl): OcupacionRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindEmpleadoRepository(impl: EmpleadoRepositoryImpl): EmpleadoRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindHoraExtraRepository(impl: HoraExtraRepositoryImpl): HoraExtraRepository
 }

@@ -2,34 +2,51 @@ package com.edu.ucne.registroocupa.di
 
 import android.content.Context
 import androidx.room.Room
-import com.edu.ucne.registroocupa.data.dataBase.OcupacionDB
-import com.edu.ucne.registroocupa.data.local.OcupacionDao
+import com.edu.ucne.registroocupa.data.dataBase.RegistroDB
+import com.edu.ucne.registroocupa.data.local.Empleado.EmpleadoDao
+import com.edu.ucne.registroocupa.data.local.Ocupacion.OcupacionDao
+import com.edu.ucne.registroocupa.data.local.horaExtra.HoraExtraDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import jakarta.inject.Singleton
-import kotlin.jvm.java
 
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
     @Provides
     @Singleton
-    fun ProvideOcupacionDatabase(@ApplicationContext context: Context): OcupacionDB
+    fun ProvideOcupacionDatabase(@ApplicationContext context: Context): RegistroDB
     {
         return Room.databaseBuilder(
             context,
-            OcupacionDB::class.java,
+            RegistroDB::class.java,
             "Ocupacion.db"
-        ).build()
+        )
+            .fallbackToDestructiveMigration(dropAllTables = true)
+            .build()
     }
 
     @Provides
     @Singleton
-    fun provideOcupacionDao(database: OcupacionDB): OcupacionDao
+    fun provideOcupacionDao(database: RegistroDB): OcupacionDao
     {
         return database.OcupacionDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideEmpleadoDao(database: RegistroDB): EmpleadoDao
+    {
+        return database.EmpleadoDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideHoraExtraDao(database: RegistroDB): HoraExtraDao
+    {
+        return database.HoraExtraDao()
     }
 }
