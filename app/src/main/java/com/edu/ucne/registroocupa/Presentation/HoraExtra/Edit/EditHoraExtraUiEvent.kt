@@ -4,7 +4,7 @@ import com.edu.ucne.registroocupa.data.local.horaExtra.TipoHoraExtra
 import java.time.LocalDate
 
 sealed interface EditHoraExtraUiEvent {
-    data class Load(val id: Int?) : EditHoraExtraUiEvent
+    data class Load(val id: Int) : EditHoraExtraUiEvent
     data class EmpleadoIdChanged(val value: Int) : EditHoraExtraUiEvent
     data class CantidadHoraExtraChanged(val value: Int) : EditHoraExtraUiEvent
 

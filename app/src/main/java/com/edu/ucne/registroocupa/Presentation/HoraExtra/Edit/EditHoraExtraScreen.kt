@@ -54,10 +54,15 @@ import kotlin.let
 
 @Composable
 fun EditHoraExtraScreen(
+    horaExtraId : Int,
     viewModel: EditHoraExtraViewModel = hiltViewModel(),
     onBack: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    LaunchedEffect(horaExtraId) {
+        viewModel.loadHoraExtra(horaExtraId)
+    }
 
     LaunchedEffect(state.saved, state.deleted) {
         if (state.saved || state.deleted) {

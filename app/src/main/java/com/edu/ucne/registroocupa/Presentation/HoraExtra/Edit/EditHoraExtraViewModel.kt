@@ -44,7 +44,6 @@ class EditHoraExtraViewModel @Inject constructor(
     val state: StateFlow<EditHoraExtraUiState> = _state.asStateFlow()
 
     init {
-        loadHoraExtra(horaExtraId)
         observeEmpleados()
         observeOcupaciones()
     }
@@ -110,10 +109,14 @@ class EditHoraExtraViewModel @Inject constructor(
         }
     }
 
-    private fun loadHoraExtra(id: Int?) {
-        if (id == null || id == 0) {
-            _state.update { it.copy(isNew = true, horaExtraId = null) }
-
+    fun loadHoraExtra(id: Int) {
+        if(id == 0 ){
+            val empleados = _state.value.empleados
+            val ocupaciones = _state.value.ocupaciones
+            _state.value = EditHoraExtraUiState(
+                empleados = empleados,
+                ocupaciones = ocupaciones
+            )
             return
         }
 

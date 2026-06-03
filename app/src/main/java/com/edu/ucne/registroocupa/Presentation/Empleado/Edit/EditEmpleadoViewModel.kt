@@ -39,7 +39,6 @@ class EditEmpleadoViewModel @Inject constructor(
     val state: StateFlow<EditEmpleadoUiState> = _state.asStateFlow()
 
     init {
-        loadEmpleado(empleadoId)
         observeOcupaciones()
     }
 
@@ -77,9 +76,10 @@ class EditEmpleadoViewModel @Inject constructor(
         }
     }
 
-    private fun loadEmpleado(id: Int?) {
-        if (id == null || id == 0) {
-            _state.update { it.copy(isNew = true, empleadoId = null) }
+    fun loadEmpleado(id: Int) {
+        if( id == 0 ){
+            val ocupaciones = _state.value.ocupaciones
+            _state.value = EditEmpleadoUiState(ocupaciones = ocupaciones)
             return
         }
 
