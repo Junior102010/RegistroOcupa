@@ -44,6 +44,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.edu.ucne.registroocupa.Dominio.Models.Ocupacion.Ocupacion
 import com.edu.ucne.registroocupa.data.local.Empleado.FrecuenciaPago
@@ -53,10 +54,15 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 fun EditEmpleadoScreen(
+    empleadoId : Int,
     viewModel: EditEmpleadoViewModel = hiltViewModel(),
     onBack: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    LaunchedEffect(empleadoId) {
+        viewModel.loadEmpleado(empleadoId)
+    }
 
     LaunchedEffect(state.saved, state.deleted) {
         if (state.saved || state.deleted) {

@@ -52,8 +52,10 @@ class EditOcupacionViewModel @Inject constructor(
             EditOcupacionUiEvent.Delete -> onDelete()
         }
     }
-
-    private fun loadOcupacion(id: Int?) {
+    fun nuevoRegistro() {
+        _state.value = EditOcupacionUiState()
+    }
+    fun loadOcupacion(id: Int?) {
         if (id == null || id == 0) {
             _state.update { it.copy(isNew = true, ocupacionId = null) }
             return
